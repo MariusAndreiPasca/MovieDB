@@ -24,10 +24,13 @@ function main() {
     </footer>`;
 
   body.appendChild(app);
+
   let movies = loadMovies();
   dataBase.length = 0;
   dataBase.push(...movies);
+
   addMovieCard();
+
   overlayForm();
 }
 

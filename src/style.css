@@ -9,8 +9,12 @@
 .movie-app {
   position: relative;
   width: 100%;
-  height: 100vh;
-  background-color: green;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #0d0d0d;
+  color: #f2f2f2;
+  padding: 20px;
 }
 
 .app-overlay {
@@ -26,10 +30,29 @@
   align-items: center;
 }
 
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 32px;
+}
+
+.add-movie {
+  width: 50px;
+  height: 50px;
+  font-size: 50px;
+  color: #f2bc1b;
+  background-color: transparent;
+  border: none;
+}
+
 .movie-form {
   background-color: blue;
   padding: 20px;
   border-radius: 10px;
+}
+
+.movie-list {
+  list-style: none;
 }
 
 .movie-form > div,
@@ -40,3 +63,28 @@
   flex-direction: column;
 }
 
+.movie {
+  margin-bottom: 20px;
+  background-color: #a68114;
+  border-radius: 10px;
+  display: flex;
+  font-size: 24px;
+}
+
+.movie > p {
+  font-size: 18px;
+}
+
+.movie-cover {
+  max-width: 150px;
+  margin-right: 10px;
+}
+
+.movie-edit,
+.movie-remove {
+  width: 100px;
+  height: 20px;
+  background-color: #f2bc1b;
+  border: none;
+  border-radius: 5px;
+}
