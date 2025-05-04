@@ -1,49 +1,52 @@
 import { dataBase } from "./db.js";
 
-export function saveMovie() {
-    let movieForm = document.querySelector(".movie-form");
+export async function saveMovie() {
+  let movieForm = document.querySelector(".movie-form");
 
-    function genUniqueID() {
-        return Math.random().toString(36).substr(2, 9);
-    }
+  let id = crypto.randomUUID();
+  let title = movieForm.querySelector(".title").value;
+  let director = movieForm.querySelector(".director").value;
+  let duration = movieForm.querySelector(".duration").value;
+  let date = movieForm.querySelector(".date").value;
+  let coverUrl = movieForm.querySelector(".cover").value;
+  let coverUpload = movieForm.querySelector(".cover-upload");
 
-    let id = genUniqueID();
-    let title = movieForm.querySelector(".title").value;
-    let director = movieForm.querySelector(".director").value;
-    let duration = movieForm.querySelector(".duration").value;
-    let date = movieForm.querySelector(".date").value;
-    let coverUrl = movieForm.querySelector(".cover").value;
-    let coverUpload = movieForm.querySelector(".cover-upload");
+  let file = coverUpload.files[0];
 
-    const file = coverUpload.files[0];
+  let newMovie = {
+    id,
+    title,
+    director,
+    duration,
+    date,
+    cover: "",
+  };
 
-    const newMovie = {
-        id,
-        title,
-        director,
-        duration,
-        date,
-        cover: ""  
-    };
+  let readFileAsync = (file) => {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
 
-  
+  try {
     if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-            newMovie.cover = reader.result;
-            dataBase.push(newMovie);
-            localStorage.setItem("dataBase", JSON.stringify(dataBase));
-            console.log("Salvat cu imagine din fișier:", newMovie);
-        };
-        reader.readAsDataURL(file); // citește imaginea
-    } else if (coverUrl.trim() !== "") {
-        newMovie.cover = coverUrl;
-        dataBase.push(newMovie);
-        localStorage.setItem("dataBase", JSON.stringify(dataBase));
-        console.log("Salvat cu link imagine:", newMovie);
+      newMovie.cover = await readFileAsync(file);
+    } else if (coverUrl !== "") {
+      newMovie.cover = coverUrl;
     } else {
-        alert("Te rog să adaugi un cover (link sau fișier).");
+      alert("Please add a cover(file or link).");
+      return null;
     }
+
+    dataBase.push(newMovie);
+    localStorage.setItem("dataBase", JSON.stringify(dataBase));
 
     return newMovie;
+  } catch (error) {
+    alert("An error occurred while reading the cover file.");
+    return null;
+  }
 }

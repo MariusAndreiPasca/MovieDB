@@ -1,13 +1,12 @@
-import { addMovieCard } from "./movieCard"
-import { saveMovie } from "./saveMovie"
+import { addMovieCard } from "./movieCard";
+import { saveMovie } from "./saveMovie";
 
 export function overlayForm() {
-    let app = document.querySelector(".movie-app")
-    let newForm = document.createElement("div")
-    newForm.classList.add("app-overlay")
+  let app = document.querySelector(".movie-app");
+  let newForm = document.createElement("div");
+  newForm.classList.add("app-overlay");
 
-    newForm.innerHTML =     
-        `<form class="movie-form" action="submit">
+  newForm.innerHTML = `<form class="movie-form" action="submit">
         <div class="close-form">
         <i class="bi bi-x-lg"></i>
         </div>
@@ -43,29 +42,42 @@ export function overlayForm() {
         <div>
             <button class="movie-submit">Add</button>
         </div>
-        </form>`
-    
-        app.appendChild(newForm)
+        </form>`;
 
-        let add = document.querySelector(".add-movie")
-        let overlay = document.querySelector(".app-overlay")
-        let windowClose = document.querySelector(".close-form")
-        let addMovie = document.querySelector(".movie-submit")
+  app.appendChild(newForm);
 
-        add.addEventListener("click", (e) => {
-            e.preventDefault()
-            overlay.style.display = "flex"
-        })
+  let add = document.querySelector(".add-movie");
+  let overlay = document.querySelector(".app-overlay");
+  let windowClose = document.querySelector(".close-form");
+  let addMovie = document.querySelector(".movie-submit");
 
-        windowClose.addEventListener("click", (e) => {
-            e.preventDefault()
-            overlay.style.display = "none"
-        })
+  add.addEventListener("click", (e) => {
+    e.preventDefault();
+    overlay.style.display = "flex";
+  });
 
-        addMovie.addEventListener("click", (e) => {
-            e.preventDefault()
-            overlay.style.display = "none"
-            let newMovie = saveMovie()
-            addMovieCard(newMovie)
-        })
+  windowClose.addEventListener("click", (e) => {
+    e.preventDefault();
+    overlay.style.display = "none";
+  });
+
+  addMovie.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    try {
+      let newMovie = await saveMovie();
+      if (newMovie) {
+        addMovieCard(newMovie);
+        overlay.style.display = "none";
+
+        const movieForm = document.querySelector(".movie-form");
+        movieForm.reset();
+
+        const coverUpload = movieForm.querySelector(".cover-upload");
+        coverUpload.value = "";
+      }
+    } catch (err) {
+      console.error("Error by save file:", err);
+    }
+  });
 }

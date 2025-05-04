@@ -1,15 +1,15 @@
-import { editBtn } from "./editBtn"
-import { dataBase } from "./db"
+import { editBtn } from "./editBtn";
+import { dataBase } from "./db";
 
 export function addMovieCard() {
-    let list = document.querySelector(".movie-list")
-    list.innerHTML = ""
-    
-    dataBase.forEach((movie) => {
-        let newCard = document.createElement("li")
-        newCard.classList.add("movie")
-        newCard.setAttribute("data-id", movie.id)
-        newCard.innerHTML =  `<img class="movie-cover" src="${movie.cover}" height="180" alt="${movie.title} cover" />
+  let list = document.querySelector(".movie-list");
+  list.innerHTML = "";
+
+  dataBase.forEach((movie) => {
+    let newCard = document.createElement("li");
+    newCard.classList.add("movie");
+    newCard.setAttribute("data-id", movie.id);
+    newCard.innerHTML = `<img class="movie-cover" src="${movie.cover}" height="180" alt="${movie.title} cover" />
             <div class="movie-info">
             <h3 class="movie-info-title">${movie.title}</h3>
             <p class="movie-info-year"><b>Release date:</b> ${movie.date}</p>
@@ -18,30 +18,46 @@ export function addMovieCard() {
     
             <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
             <button class="movie-remove"><i class="bi bi-trash3"></i></button>
-            </div>`
+            </div>`;
 
-            list.appendChild(newCard)
+    list.appendChild(newCard);
 
-            let editButton = newCard.querySelector(".movie-edit")
-            let removeButton = newCard.querySelector(".movie-remove")
+    let editButton = newCard.querySelector(".movie-edit");
+    let removeButton = newCard.querySelector(".movie-remove");
 
-            removeButton.addEventListener("click", () => {
-                let movieCard = removeButton.closest(".movie")
-                let id = movieCard.getAttribute("data-id")
+    removeButton.addEventListener("click", () => {
+      let movieCard = removeButton.closest(".movie");
+      let id = movieCard.getAttribute("data-id");
 
-                let index = dataBase.findIndex(movie => movie.id === id)
+      let index = dataBase.findIndex((movie) => movie.id === id);
 
-                if(index !== -1) {
-                    dataBase.splice(index, 1)
-                    localStorage.setItem("dataBase", JSON.stringify(dataBase));
-                    movieCard.remove();
-                    console.log(dataBase)
-                }
-            });           
+      if (index !== -1) {
+        dataBase.splice(index, 1);
+        localStorage.setItem("dataBase", JSON.stringify(dataBase));
+        movieCard.remove();
+        console.log(dataBase);
+      }
+    });
+
+    editButton.addEventListener("click", (e) => {
+      editBtn(e.currentTarget);
+    });
+  });
+}
+
+export function renderMovieCard(movie) {
+  let container = document.getElementById("movie-list");
+  let card = document.createElement("div");
+  card.className = "movie";
+  card.innerHTML = `<img class="movie-cover" src="${movie.cover}" height="180" alt="${movie.title} cover" />
+            <div class="movie-info">
+            <h3 class="movie-info-title">${movie.title}</h3>
+            <p class="movie-info-year"><b>Release date:</b> ${movie.date}</p>
+            <p class="movie-info-director"><b>Director:</b> ${movie.director}</p>
+            <p class="movie-info-duration"><b>Duration:</b> ${movie.duration} min</p>
     
-            editButton.addEventListener("click", () => {
-                editBtn(movie.id)
-            })
-            
-    })
+            <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
+            <button class="movie-remove"><i class="bi bi-trash3"></i></button>
+            </div>`;
+  container.appendChild(card);
 }

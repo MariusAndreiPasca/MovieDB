@@ -1,60 +1,130 @@
+import { dataBase, saveMovies } from "./db";
+
 export function editBtn(edit) {
-    
-    const movieCard = edit.closest(".movie")
+  let movieCard = edit.closest(".movie");
 
-    
-    movieCard.innerHTML = 
-        `<div class="movie-info">
-            <div>
-                <span class="movie-cover">Cover URL: </span>
-                <input type="text" class="cover-url" placeholder="URL copertă film..." />
-            </div>
-            <p>ori</p>
-            <div>
-                <span class="movie-cover-upload">Încarcă</span>
-                <input type="file" class="cover-upload" accept="image/png, image/jpeg, image/jpg" />
-            </div>
-            <h3 class="movie-info-title"><b>Titlu film:</b> <input type="text" class="movie-title"/></h3>
-            <p class="movie-info-year"><b>Data lansării:</b> <input type="number" class="movie-year"/></p>
-            <p class="movie-info-director"><b>Regizor:</b> <input type="text" class="movie-director"/></p>
-            <p class="movie-info-duration"><b>Durată:</b> <input type="number" class="movie-duration"/> min</p>
-            <button class="movie-save-info"><i class="bi bi-floppy-fill"></i></button>
-        </div>`
+  let movieId = movieCard.dataset.id;
 
-    const saveBtn = movieCard.querySelector(".movie-save-info");
-    saveBtn.addEventListener("click", (e) => {
-        e.preventDefault()
+  let movieToEdit = dataBase.find((movie) => movie.id === movieId);
 
-        
-        const newPoster = movieCard.querySelector(".cover-url").value || "default-cover.jpg"
-        const newTitle = movieCard.querySelector(".movie-title").value || "Fără titlu"
-        const newYear = movieCard.querySelector(".movie-year").value || "Necunoscut"
-        const newDirector = movieCard.querySelector(".movie-director").value || "Necunoscut"
-        const newDuration = movieCard.querySelector(".movie-duration").value || "0"
+  if (movieToEdit) {
+    let currentPoster = "";
+    let currentTitle = movieToEdit.title;
+    let currentYear = movieToEdit.date;
+    let currentDirector = movieToEdit.director;
+    let currentDuration = movieToEdit.duration;
 
-        
-        movieCard.innerHTML = 
-        `<img class="movie-cover" src="${newPoster}" height="180" alt="${newTitle} copertă" />
-            <div class="movie-info">
-                <h3 class="movie-info-title">${newTitle}</h3>
-                <p class="movie-info-year"><b>Data lansării:</b> ${newYear}</p>
-                <p class="movie-info-director"><b>Regizor:</b> ${newDirector}</p>
-                <p class="movie-info-duration"><b>Durată:</b> ${newDuration} min</p>
-                <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
-                <button class="movie-remove"><i class="bi bi-trash3"></i></button>
-            </div>
-        `
+    movieCard.innerHTML = `
+      <div class="movie-info">
+        <div>
+          <span class="movie-cover">Cover URL: </span>
+          <input type="text" class="cover-url" value="${currentPoster}" placeholder="Enter movie cover URL..." />
+        </div>
+        <p>or</p>
+        <div>
+          <span class="movie-cover-upload">Upload</span>
+          <input type="file" class="cover-upload" accept="image/png, image/jpeg, image/jpg" />
+        </div>
+        <h3 class="movie-info-title"><b>Movie Title:</b> <input type="text" class="movie-title" value="${currentTitle}" /></h3>
+        <p class="movie-info-year"><b>Release Date:</b> <input type="number" class="movie-year" value="${currentYear}" /></p>
+        <p class="movie-info-director"><b>Director:</b> <input type="text" class="movie-director" value="${currentDirector}" /></p>
+        <p class="movie-info-duration"><b>Duration:</b> <input type="number" class="movie-duration" value="${currentDuration}" /> min</p>
+        <button class="movie-save-info"><i class="bi bi-floppy-fill"></i></button>
+      </div>
+    `;
 
-        
-        const newEditBtn = movieCard.querySelector(".movie-edit")
-        const newRemoveBtn = movieCard.querySelector(".movie-remove")
+    let saveBtn = movieCard.querySelector(".movie-save-info");
 
-        newEditBtn.addEventListener("click", () => {
-            editBtn(newEditBtn);
-        });
+    saveBtn.addEventListener("click", function (e) {
+      e.preventDefault();
 
-        newRemoveBtn.addEventListener("click", () => {
-            movieCard.remove()
-        });
+      let newPoster = movieCard.querySelector(".cover-url").value.trim();
+      let newTitle = movieCard.querySelector(".movie-title").value;
+      let newYear = movieCard.querySelector(".movie-year").value;
+      let newDirector = movieCard.querySelector(".movie-director").value;
+      let newDuration = movieCard.querySelector(".movie-duration").value;
+      let coverUpload = movieCard.querySelector(".cover-upload");
+      let file = coverUpload.files[0];
+
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function () {
+          newPoster = reader.result;
+
+          movieToEdit.cover = newPoster;
+          movieToEdit.title = newTitle;
+          movieToEdit.date = newYear;
+          movieToEdit.director = newDirector;
+          movieToEdit.duration = newDuration;
+
+          saveMovies(dataBase);
+
+          updateMovieCard(
+            movieCard,
+            newPoster,
+            newTitle,
+            newYear,
+            newDirector,
+            newDuration
+          );
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
+      if (newPoster) {
+        movieToEdit.cover = newPoster;
+        movieToEdit.title = newTitle;
+        movieToEdit.date = newYear;
+        movieToEdit.director = newDirector;
+        movieToEdit.duration = newDuration;
+
+        saveMovies(dataBase);
+
+        updateMovieCard(
+          movieCard,
+          newPoster,
+          newTitle,
+          newYear,
+          newDirector,
+          newDuration
+        );
+        return;
+      }
+
+      alert("Please add a cover (file or link).");
     });
+  }
+}
+
+function updateMovieCard(
+  movieCard,
+  newPoster,
+  newTitle,
+  newYear,
+  newDirector,
+  newDuration
+) {
+  movieCard.innerHTML = `
+    <img class="movie-cover" src="${newPoster}" height="180" alt="${newTitle} cover" />
+    <div class="movie-info">
+      <h3 class="movie-info-title">${newTitle}</h3>
+      <p class="movie-info-year"><b>Release Date:</b> ${newYear}</p>
+      <p class="movie-info-director"><b>Director:</b> ${newDirector}</p>
+      <p class="movie-info-duration"><b>Duration:</b> ${newDuration} min</p>
+      <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
+      <button class="movie-remove"><i class="bi bi-trash3"></i></button>
+    </div>
+  `;
+
+  let newEditBtn = movieCard.querySelector(".movie-edit");
+  let newRemoveBtn = movieCard.querySelector(".movie-remove");
+
+  newEditBtn.addEventListener("click", function () {
+    editBtn(newEditBtn);
+  });
+
+  newRemoveBtn.addEventListener("click", function () {
+    movieCard.remove();
+  });
 }
