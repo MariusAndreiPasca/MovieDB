@@ -9,7 +9,7 @@ function main() {
   app.classList.add("movie-app");
 
   app.innerHTML = `<header class="app-header">
-        <h1 class="app-title">Movie List</h1>
+        <h1 class="app-title">SceneIt</h1>
         <button class="add-movie"><i class="bi bi-plus-circle"></i></button>
     </header>
     <main class="app-main">

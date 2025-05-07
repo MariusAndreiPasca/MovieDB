@@ -16,20 +16,30 @@ export function editBtn(edit) {
 
     movieCard.innerHTML = `
       <div class="movie-info">
-        <div>
-          <span class="movie-cover">Cover URL: </span>
-          <input type="text" class="cover-url" value="${currentPoster}" placeholder="Enter movie cover URL..." />
+        
+        <div class="movie-edit-container">
+          <div class="movie-info-edit">
+            <h3 class="movie-info-title"><b>Movie Title:</b> <input type="text" class="movie-title" value="${currentTitle}" /></h3>
+            <p class="movie-info-year"><b>Release Date:</b> <input type="number" class="movie-year" value="${currentYear}" /></p>
+            <p class="movie-info-director"><b>Director:</b> <input type="text" class="movie-director" value="${currentDirector}" /></p>
+            <p class="movie-info-duration"><b>Duration:</b> <input type="number" class="movie-duration" value="${currentDuration}" /> min</p>
+            
+          </div>
+          <div class="movie-image-uplaod">
+            <div>
+              <span class="movie-cover">Cover URL: </span>
+              <input type="text" class="cover-url" value="${currentPoster}" placeholder="Enter movie cover URL..." />
+            </div>
+            <p>or</p>
+            <div>
+              <span class="movie-cover-upload">Upload</span>
+              <input type="file" class="cover-upload" accept="image/png, image/jpeg, image/jpg" />
+            </div>
+          </div>
         </div>
-        <p>or</p>
-        <div>
-          <span class="movie-cover-upload">Upload</span>
-          <input type="file" class="cover-upload" accept="image/png, image/jpeg, image/jpg" />
-        </div>
-        <h3 class="movie-info-title"><b>Movie Title:</b> <input type="text" class="movie-title" value="${currentTitle}" /></h3>
-        <p class="movie-info-year"><b>Release Date:</b> <input type="number" class="movie-year" value="${currentYear}" /></p>
-        <p class="movie-info-director"><b>Director:</b> <input type="text" class="movie-director" value="${currentDirector}" /></p>
-        <p class="movie-info-duration"><b>Duration:</b> <input type="number" class="movie-duration" value="${currentDuration}" /> min</p>
-        <button class="movie-save-info"><i class="bi bi-floppy-fill"></i></button>
+        
+        <button class="movie-save-info">Save</button>
+
       </div>
     `;
 
@@ -105,18 +115,41 @@ function updateMovieCard(
   newDirector,
   newDuration
 ) {
-  movieCard.innerHTML = `
-    <img class="movie-cover" src="${newPoster}" height="180" alt="${newTitle} cover" />
-    <div class="movie-info">
-      <h3 class="movie-info-title">${newTitle}</h3>
-      <p class="movie-info-year"><b>Release Date:</b> ${newYear}</p>
-      <p class="movie-info-director"><b>Director:</b> ${newDirector}</p>
-      <p class="movie-info-duration"><b>Duration:</b> ${newDuration} min</p>
-      <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
-      <button class="movie-remove"><i class="bi bi-trash3"></i></button>
-    </div>
-  `;
+  movieCard.innerHTML = `<img class="movie-cover" src="${newPoster}" height="180" alt="${newTitle} cover" />
+            <div class="movie-info">
+            <h3 class="movie-info-title">${newTitle}</h3>
+            <p class="movie-info-year"><b>Release date:</b> ${newYear}</p>
+            <p class="movie-info-director"><b>Director:</b> ${newDirector}</p>
+            <p class="movie-info-duration"><b>Duration:</b> ${newDuration} min</p>
+            <div class="movie-card-buttons">
+            <button class="movie-trailer">Trailer</button>
+              <button class="movie-edit">Edit</button>
+              <button class="movie-remove">Remove</button>
+            </div>
+            </div>`;
 
+            let background = movieCard.querySelector(".movie-info")
+            background.style.backgroundImage = `linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5)), url('${newPoster}')`
+            background.style.backgroundSize = 'cover';
+            background.style.backgroundPosition = 'center';
+            background.style.borderTopRightRadius = '10px';
+            background.style.borderBottomRightRadius = '10px';
+            movieCard.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+            movieCard.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+            movieCard.style.borderRadius = "10px";
+
+  movieCard.addEventListener("mouseenter", () => {
+    card.style.transform = "translateY(-5px)";
+    card.style.boxShadow = "0 8px 20px rgba(0, 0, 0, 0.4)";
+  });
+
+  movieCard.addEventListener("mouseleave", () => {
+    card.style.transform = "translateY(0)";
+    card.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+  });
+
+  
+  
   let newEditBtn = movieCard.querySelector(".movie-edit");
   let newRemoveBtn = movieCard.querySelector(".movie-remove");
 
@@ -125,6 +158,13 @@ function updateMovieCard(
   });
 
   newRemoveBtn.addEventListener("click", function () {
-    movieCard.remove();
+    let id = movieCard.getAttribute("data-id");
+    let index = dataBase.findIndex((movie) => movie.id === id);
+  
+    if (index !== -1) {
+      dataBase.splice(index, 1);
+      localStorage.setItem("dataBase", JSON.stringify(dataBase));
+      movieCard.remove();
+    }
   });
 }

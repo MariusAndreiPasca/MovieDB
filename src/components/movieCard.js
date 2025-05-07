@@ -15,15 +15,30 @@ export function addMovieCard() {
             <p class="movie-info-year"><b>Release date:</b> ${movie.date}</p>
             <p class="movie-info-director"><b>Director:</b> ${movie.director}</p>
             <p class="movie-info-duration"><b>Duration:</b> ${movie.duration} min</p>
-    
-            <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
-            <button class="movie-remove"><i class="bi bi-trash3"></i></button>
+            <div class="movie-card-buttons">
+            <button class="movie-trailer">Trailer</button>
+              <button class="movie-edit">Edit</button>
+              <button class="movie-remove">Remove</button>
+            </div>
             </div>`;
+
+            let background = newCard.querySelector(".movie-info");
+    background.style.backgroundImage = `linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4)), url('${movie.cover}')`;
+    background.style.backgroundSize = 'cover';
+    background.style.backgroundPosition = 'center';
+    background.style.borderTopRightRadius = '10px';
+    background.style.borderBottomRightRadius = '10px';
+    newCard.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.3)";
+    newCard.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+    newCard.style.borderRadius = "10px";
+
 
     list.appendChild(newCard);
 
+    
     let editButton = newCard.querySelector(".movie-edit");
     let removeButton = newCard.querySelector(".movie-remove");
+
 
     removeButton.addEventListener("click", () => {
       let movieCard = removeButton.closest(".movie");
@@ -59,5 +74,20 @@ export function renderMovieCard(movie) {
             <button class="movie-edit"><i class="bi bi-pencil-fill"></i></button>
             <button class="movie-remove"><i class="bi bi-trash3"></i></button>
             </div>`;
+
+            let background = card.querySelector(".movie-info")
+            background.style.backgroundImage = `linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4)), url('${movie.cover}')`
+            background.style.backgroundSize = 'cover';
+            background.style.backgroundPosition = 'center';
+            background.style.borderTopRightRadius = '10px';
+            background.style.borderBottomRightRadius = '10px';
+            card.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.4)";
+            card.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+            card.style.borderRadius = "10px";
+        
+            
   container.appendChild(card);
+
+  
 }
+

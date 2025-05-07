@@ -2,7 +2,7 @@ import { addMovieCard } from "./movieCard";
 import { saveMovie } from "./saveMovie";
 
 export function overlayForm() {
-  let app = document.querySelector(".movie-app");
+  let app = document.querySelector(".app");
   let newForm = document.createElement("div");
   newForm.classList.add("app-overlay");
 
@@ -34,11 +34,17 @@ export function overlayForm() {
             <span class="movie-cover">Cover URL: </span>
             <input type="text" class="cover" placeholder="Movie cover URL..." />
         </div>
-        <p>or</p>
+        <p class="or-text">   or</p>
         <div>
             <span class="movie-cover-upload">Upload</span>
             <input type="file" class="cover-upload" accept="image/png, image/jpeg, image/jpg" />
         </div>
+
+        <div>
+            <span class="movie-trailer-link">Upload Tailer Link</span>
+            <input type="text" class="trailer-upload"/>
+        </div>
+        
         <div>
             <button class="movie-submit">Add</button>
         </div>
@@ -50,6 +56,7 @@ export function overlayForm() {
   let overlay = document.querySelector(".app-overlay");
   let windowClose = document.querySelector(".close-form");
   let addMovie = document.querySelector(".movie-submit");
+  
 
   add.addEventListener("click", (e) => {
     e.preventDefault();

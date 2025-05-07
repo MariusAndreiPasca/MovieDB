@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 *,
 *::before,
 *::after {
@@ -6,13 +8,22 @@
   box-sizing: border-box;
 }
 
+.app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-color: #dba608;
+  font-family: 'Poppins', serif;
+  
+}
+
 .movie-app {
   position: relative;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  background-color: #0d0d0d;
   color: #f2f2f2;
   padding: 20px;
 }
@@ -40,15 +51,39 @@
   width: 50px;
   height: 50px;
   font-size: 50px;
-  color: #f2bc1b;
+  color: #4b0082;
   background-color: transparent;
   border: none;
+  margin: 15px;
 }
 
 .movie-form {
-  background-color: blue;
+  background-color: #4b0082;
   padding: 20px;
   border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  animation: open 1s ease-out;
+  
+  
+}
+
+@keyframes open {
+  0% {
+    transform: translateY(-1000px);
+  }
+}
+
+.or-text {
+  padding-left: 10px;
+}
+
+.close-form {
+  align-items: end;
+}
+
+.close-form:hover {
+  cursor: pointer;
 }
 
 .movie-list {
@@ -65,26 +100,80 @@
 
 .movie {
   margin-bottom: 20px;
-  background-color: #a68114;
+  background-color: #000;
   border-radius: 10px;
   display: flex;
-  font-size: 24px;
+  font-size: 16px;
 }
+
+.movie-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  padding-left: 5px;
+}
+
+.movie-card-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+  gap: 5px;
+  padding: 5px;
+}
+
+
 
 .movie > p {
   font-size: 18px;
 }
 
 .movie-cover {
-  max-width: 150px;
+  width: 120px;
   margin-right: 10px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 .movie-edit,
-.movie-remove {
-  width: 100px;
+.movie-remove,
+.movie-trailer, 
+.movie-save-info {
+  width: 70px;
   height: 20px;
-  background-color: #f2bc1b;
-  border: none;
+  background-color: transparent;
+  border: 2px solid white;
   border-radius: 5px;
+  color: white;
 }
+
+.movie-edit-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 50px;
+}
+
+.movie-submit {
+  width: 170px;
+  height: 30px;
+  align-self: center;
+  border: 2px solid #dba608;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #dba608;
+}
+
+.app-footer {
+align-self: center;
+}
+
+.app-footer > p > a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
