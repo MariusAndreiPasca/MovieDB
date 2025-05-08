@@ -38,7 +38,38 @@ export function addMovieCard() {
     
     let editButton = newCard.querySelector(".movie-edit");
     let removeButton = newCard.querySelector(".movie-remove");
+    let trailerButton = newCard.querySelector(".movie-trailer")
 
+    trailerButton.addEventListener("click", () => {
+      let appBody = document.querySelector(".app")
+      let trailerFrame = document.createElement("div")
+      let trailerContainer = document.createElement("div")
+
+      trailerFrame.classList.add("trailer-frame")
+      trailerFrame.style.display = "flex"
+
+      trailerContainer.classList.add("trailer-container")
+
+      trailerFrame.appendChild(trailerContainer)
+
+      trailerContainer.innerHTML = 
+      `<div class="close-trailer">
+        <i class="bi bi-x-lg"></i>
+        </div>
+        <iframe class="trailer-frame-video" src="${movie.trailer}"></iframe>
+      `
+
+      appBody.appendChild(trailerFrame)
+
+      let trailerClose = document.querySelector(".close-trailer");
+
+      trailerClose.addEventListener("click", (e) => {
+        e.preventDefault();
+        trailerFrame.remove();
+      });
+      
+      
+    })
 
     removeButton.addEventListener("click", () => {
       let movieCard = removeButton.closest(".movie");

@@ -41,6 +41,45 @@
   align-items: center;
 }
 
+.trailer-frame {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #00000090;
+  z-index: 10;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 300px;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+.trailer-container {
+  background-color: #4b0082;
+  padding: 50px;
+  width: 100%;
+  border-radius: 20px;
+  
+}
+
+.close-trailer {
+  color: #dba608;
+  font-size: 24px;
+  width: 100%;
+
+}
+
+.trailer-frame-video {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 .app-header {
   display: flex;
   justify-content: space-between;

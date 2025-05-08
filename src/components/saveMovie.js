@@ -10,6 +10,7 @@ export async function saveMovie() {
   let date = movieForm.querySelector(".date").value;
   let coverUrl = movieForm.querySelector(".cover").value;
   let coverUpload = movieForm.querySelector(".cover-upload");
+  let trailer = movieForm.querySelector(".trailer-upload").value;
 
   let file = coverUpload.files[0];
 
@@ -19,6 +20,7 @@ export async function saveMovie() {
     director,
     duration,
     date,
+    trailer,
     cover: "",
   };
 
