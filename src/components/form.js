@@ -68,6 +68,13 @@ export function overlayForm() {
     overlay.style.display = "none";
   });
 
+  overlay.addEventListener("click", function (e) {
+    
+    if (e.target === overlay) {
+      overlay.style.display = "none";
+    }
+  });
+
   addMovie.addEventListener("click", async (e) => {
     e.preventDefault();
 

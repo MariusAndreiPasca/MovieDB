@@ -1,5 +1,6 @@
 import { editBtn } from "./editBtn";
 import { dataBase } from "./db";
+import { showTrailer } from "./showTrailer";
 
 export function addMovieCard() {
   let list = document.querySelector(".movie-list");
@@ -9,7 +10,7 @@ export function addMovieCard() {
     let newCard = document.createElement("li");
     newCard.classList.add("movie");
     newCard.setAttribute("data-id", movie.id);
-    newCard.innerHTML = `<img class="movie-cover" src="${movie.cover}" height="180" alt="${movie.title} cover" />
+    newCard.innerHTML = `<div class="movie-poste-container"><img class="movie-cover" src="${movie.cover}" height="180" alt="${movie.title} cover" /></div>
             <div class="movie-info">
             <h3 class="movie-info-title">${movie.title}</h3>
             <p class="movie-info-year"><b>Release date:</b> ${movie.date}</p>
@@ -22,7 +23,7 @@ export function addMovieCard() {
             </div>
             </div>`;
 
-            let background = newCard.querySelector(".movie-info");
+    let background = newCard.querySelector(".movie-info");
     background.style.backgroundImage = `linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.4)), url('${movie.cover}')`;
     background.style.backgroundSize = 'cover';
     background.style.backgroundPosition = 'center';
@@ -38,38 +39,12 @@ export function addMovieCard() {
     
     let editButton = newCard.querySelector(".movie-edit");
     let removeButton = newCard.querySelector(".movie-remove");
-    let trailerButton = newCard.querySelector(".movie-trailer")
+    let trailerButton = newCard.querySelector(".movie-trailer");
 
     trailerButton.addEventListener("click", () => {
-      let appBody = document.querySelector(".app")
-      let trailerFrame = document.createElement("div")
-      let trailerContainer = document.createElement("div")
+      showTrailer(movie.trailer);
+    });
 
-      trailerFrame.classList.add("trailer-frame")
-      trailerFrame.style.display = "flex"
-
-      trailerContainer.classList.add("trailer-container")
-
-      trailerFrame.appendChild(trailerContainer)
-
-      trailerContainer.innerHTML = 
-      `<div class="close-trailer">
-        <i class="bi bi-x-lg"></i>
-        </div>
-        <iframe class="trailer-frame-video" src="${movie.trailer}"></iframe>
-      `
-
-      appBody.appendChild(trailerFrame)
-
-      let trailerClose = document.querySelector(".close-trailer");
-
-      trailerClose.addEventListener("click", (e) => {
-        e.preventDefault();
-        trailerFrame.remove();
-      });
-      
-      
-    })
 
     removeButton.addEventListener("click", () => {
       let movieCard = removeButton.closest(".movie");

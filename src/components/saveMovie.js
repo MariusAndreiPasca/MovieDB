@@ -1,5 +1,10 @@
 import { dataBase } from "./db.js";
 
+function convertToEmbedUrl(youtubeUrl) {
+  const match = youtubeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+
 export async function saveMovie() {
   let movieForm = document.querySelector(".movie-form");
 
@@ -10,9 +15,16 @@ export async function saveMovie() {
   let date = movieForm.querySelector(".date").value;
   let coverUrl = movieForm.querySelector(".cover").value;
   let coverUpload = movieForm.querySelector(".cover-upload");
-  let trailer = movieForm.querySelector(".trailer-upload").value;
+  let trailerLink = movieForm.querySelector(".trailer-upload").value;
 
   let file = coverUpload.files[0];
+
+  let trailer = convertToEmbedUrl(trailerLink); 
+  if (!trailer && trailerLink !== "") {
+    alert("Trailer URL invalid.");
+    return null;
+  }
+
 
   let newMovie = {
     id,

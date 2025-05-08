@@ -14,15 +14,15 @@
   height: 100vh;
   background-color: #dba608;
   font-family: 'Poppins', serif;
-  
+  display: flex;
+  justify-content: center;
 }
 
 .movie-app {
   position: relative;
   width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   flex-direction: column;
   color: #f2f2f2;
   padding: 20px;
@@ -42,51 +42,63 @@
 }
 
 .trailer-frame {
-  position: absolute;
+  position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
-  background-color: #00000090;
-  z-index: 10;
-  display: none;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 300px;
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
 }
 
 .trailer-container {
   background-color: #4b0082;
-  padding: 50px;
-  width: 100%;
   border-radius: 20px;
-  
+  max-width: 90%;
+  width: 800px;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.close-trailer {
-  color: #dba608;
-  font-size: 24px;
+.trailer-video-wrapper {
   width: 100%;
-
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .trailer-frame-video {
   width: 100%;
   height: 100%;
-  aspect-ratio: 16 / 9;
   border: none;
-  margin-top: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: block;
+  margin-top: 40px;
+}
+
+.close-trailer {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 28px;
+  color: #dba608;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 32px;
 }
 
-.add-movie {
+.add-movie,
+.filter-button {
   width: 50px;
   height: 50px;
   font-size: 50px;
@@ -96,16 +108,93 @@
   margin: 15px;
 }
 
+
+.filter-container {
+  display: none;
+  width: 100%;
+  height: 150px;
+  background-color: #4b0082;
+  animation: dropdown 1s ease-out;
+  border-radius: 20px;
+  box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px;
+}
+
+
+
+.filter-option,
+.sort-option {
+  animation: show 1s ease-in;
+  width: 100%;
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+}
+
+.filter-option > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filter-option > div > input {
+  width: 200px;
+
+}
+
+.sort-option {
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: start;
+}
+
+.sort-option > button {
+  width: 100px;
+  height: 50px;
+  border: 2px solid white;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+}
+
+
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  
+}
+
+@keyframes dropdown {
+  0% {
+    height: 100px;
+  }
+  100% {
+    height: 150px;
+  }
+}
+
 .movie-form {
   background-color: #4b0082;
   padding: 20px;
   border-radius: 10px;
   color: white;
   font-weight: bold;
-  animation: open 1s ease-out;
-  
-  
+  animation: open 1s ease-out; 
 }
+
+
 
 @keyframes open {
   0% {
@@ -152,6 +241,7 @@
   justify-content: space-between;
   align-items: start;
   padding-left: 5px;
+ 
 }
 
 .movie-card-buttons {
@@ -164,16 +254,26 @@
 }
 
 
+.cover-upload {
+  margin-bottom: 10px;
+}
+
 
 .movie > p {
   font-size: 18px;
 }
 
+.movie-poste-container {
+  width: 140px;
+  height: 100%;
+}
+
 .movie-cover {
-  width: 120px;
+  width: 100%;
   margin-right: 10px;
-  padding: 5px;
   border-radius: 10px;
+  object-fit: cover;
+  
 }
 
 .movie-edit,
@@ -194,6 +294,11 @@
   align-items: center;
   justify-content: start;
   gap: 50px;
+  padding: 10px;
+}
+
+.movie-save-info {
+  margin: 10px;
 }
 
 .movie-submit {
@@ -207,7 +312,16 @@
 }
 
 .app-footer {
-align-self: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-footer > p > a {
@@ -216,3 +330,95 @@ align-self: center;
   font-weight: bold;
 }
 
+
+@media screen and (min-width: 1024px) {
+  .movie-app {
+    max-width: 1024px;
+  }
+  
+}
+
+@media screen and (max-width: 750px) {
+
+  .add-movie,
+  .filter-button {
+    width: 30px;
+    font-size: 30px;
+  }
+
+  .app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28px;
+  }
+
+  .filter-container {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 200px;
+    background-color: #4b0082;
+    animation: dropdown 1s ease-out;
+    border-radius: 20px;
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
+  }
+
+  .filter-option {
+    margin: 0;
+    padding: 20px;
+  }
+
+  .filter-option > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .sort-option {
+    justify-content: start;
+    align-items: start;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .sort-option > button {
+    width: 100px;
+    height: 30px;
+}
+
+@keyframes dropdown {
+  0% {
+    height: 100px;
+  }
+  100% {
+    height: 200px;
+  }
+}
+
+.app-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+
+}
+
+}
+
+@media  screen and (max-width: 400px) {
+  .add-movie,
+  .filter-button {
+    width: 20px;
+    font-size: 20px;
+  }
+}
